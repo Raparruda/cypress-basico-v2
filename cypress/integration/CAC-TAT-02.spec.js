@@ -5,11 +5,13 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         cy.visit('./src/index.html')
     })
     
-    it('preenche campos obrgatórios e envia formulário',function(){
+    
+    it.only('preenche campos obrgatórios e envia formulário',function(){
+        const TeAjudar = Cypress._.repeat('Teste Rephael -', 10)
         cy.get('#firstName').type('Raphael',{0:0})
         cy.get('#lastName').type('Arruda Prestes')
         cy.get('#email').type('raparruda@gmail.com')
-        cy.get('#open-text-area').type('Teste')
+        cy.get('#open-text-area').type(TeAjudar)
         cy.contains('button','Enviar').click()
 
         cy.get('.success').should('be.visible')
@@ -62,15 +64,22 @@ describe('Central de Atendimento ao Cliente TAT', function(){
         .clear()
     })
 
-    it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',function(){
+    it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',function(){
+        cy.clock()
         cy.contains('button','Enviar').click()
-
+       
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
+
     })
 
-    it('envia o formuário com sucesso usando um comando customizado',function(){
+    it.only('envia o formuário com sucesso usando um comando customizado',function(){
+       cy.clock()
        cy.fillMandatoryFieldsAndSubmit()
 
        cy.get('.success').should('be.visible')
+       cy.tick(3000)
+       cy.get('.success').should('not.be.visible')
     })
 })
